@@ -1,0 +1,5 @@
+@keyframes blinking {
+    to {
+        background-color: grey;
+    }
+}

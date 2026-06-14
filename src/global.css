@@ -19,6 +19,8 @@ html {
     --spacing-7: 28px;
     --spacing-8: 32px;
     --spacing-16: 64px;
+    --spacing-32: 128px;
+    --spacing-48: 192px;
 }
 
 body {
@@ -26,18 +28,18 @@ body {
     color: var(--fg-color);
     font-family: var(--base-font-family);
     font-size: var(--base-font-size);
-    line-height: 1.5rem;
-    margin: var(--spacing-8) var(--spacing-6);
+    margin: 0 var(--spacing-4);
+    overflow-x: hidden;
 }
 
 h1 {
     font-size: 2.5rem;
-    margin: var(--spacing-4) 0px;
+    margin: 0px 0px var(--spacing-4) 0px;
 }
 
 h2 {
     font-size: 1.8rem;
-    margin: var(--spacing-16) 0px var(--spacing-4);
+    margin: 0px 0px var(--spacing-4) 0px;
 }
 
 ul {
@@ -48,15 +50,6 @@ ul {
 
     li {
         margin-top: var(--spacing-4);
-    }
-
-    &.inline {
-        display: flex;
-        gap: var(--spacing-2);
-
-        li {
-            margin-top: 0px;
-        }
     }
 }
 
