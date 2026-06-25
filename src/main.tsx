@@ -19,7 +19,7 @@ const App = () => {
   return (
     <>
       {showIntro ? (
-        <Intro delayMs={INTRO_DELAY_MS} />
+        <Intro duration={INTRO_DELAY_MS} />
       ) : (
         <>
           <Background />
