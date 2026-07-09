@@ -4,7 +4,18 @@
     }
 }
 
-.text::after {
+.terminal {
+    background-color: transparent;
+    color: white;
+    font-family: inherit;
+    font-size: inherit;
+    outline: none;
+    border: none;
+    height: 1rem;
+    width: 100%;
+}
+
+.terminal::after {
     content: "█";
     animation: blinking 1.5s steps(2) infinite;
 }

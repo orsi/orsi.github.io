@@ -7,41 +7,45 @@ const NOW = new Date();
 const AUDIO_CONTEXT = new AudioContext();
 
 export function Intro() {
-  console.log('audio', AUDIO_CONTEXT);
+  // console.log('audio', AUDIO_CONTEXT);
   const bluetooth = navigator.bluetooth;
-  console.log('bluetooth', bluetooth);
+  // console.log('bluetooth', bluetooth);
   const connection = navigator.connection;
-  console.log('connection', connection);
+  // console.log('connection', connection);
   const deviceMemory = navigator.deviceMemory;
-  console.log('deviceMemory', deviceMemory);
-  const geolocation = navigator.geolocation;
-  console.log('geolocation', geolocation);
+  // console.log('deviceMemory', deviceMemory);
+  // const [geolocation, setGeolocation] = useState<GeolocationPosition>();
+  // navigator.geolocation.getCurrentPosition((res) => {
+  //   // console.log('geolocation', res);
+  //   setGeolocation(res);
+  // });
   const hardware = navigator.hardwareConcurrency;
-  console.log('hardware', hardware);
+  // console.log('hardware', hardware);
   const language = navigator.language;
-  console.log('language', language);
+  // console.log('language', language);
   const languages = navigator.languages;
-  console.log('languages', languages);
+  // console.log('languages', languages);
   const online = navigator.onLine;
-  console.log('online', online);
+  // console.log('online', online);
   const preferences = navigator.preferences;
-  console.log('preferences', preferences);
+  // console.log('preferences', preferences);
   const usb = navigator.usb;
-  console.log('usb', usb);
+  // console.log('usb', usb);
   const userAgent = navigator.userAgent;
-  console.log('userAgent', userAgent);
+  // console.log('userAgent', userAgent);
 
   const history = window.history;
-  console.log('history', history);
+  // console.log('history', history);
 
   const battery = navigator.getBattery().then((res) => {
-    console.log('battery', res);
+    // console.log('battery', res);
   });
 
   const gamepads = navigator.getGamepads();
-  console.log('gamepads', gamepads);
+  // console.log('gamepads', gamepads);
 
-  const [title, setTitle] = useState('');
+  const terminalRef = useRef<HTMLInputElement>();
+  const [terminalValue, setTerminalValue] = useState('$ ');
   const [lastInput, setLastInput] = useState('');
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -71,9 +75,10 @@ export function Intro() {
   // }, []);
 
   useEffect(() => {
-    console.log('wtf');
+    console.log('terminalValue', terminalValue, terminalRef.current?.value);
+
     const onKeyDown = (ev: KeyboardEvent) => {
-      console.log('keydown', ev);
+      // console.log('keydown', ev);
       const inputs = [];
       if (ev.altKey) {
         inputs.push('ALT');
@@ -119,21 +124,40 @@ export function Intro() {
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
         <div>
           <div>
-            Jonathon Orsi BIOS v39.
-            {Math.round((10 * (NOW.getMonth() + 1)) / 12)}
+            Jonathon Orsi v39.{Math.round((10 * (NOW.getMonth() + 1)) / 12)}
           </div>
           <div>Copyright (C) 1986-{NOW.getFullYear()}</div>
           <div>Memory Test: {deviceMemory}K OK</div>
-          <div>|</div>
-          <div>|</div>
-          <div>Detecting Location: Toronto, ON</div>
-          <div>Detecting Timezone: UTC-4</div>
-          <div>Detecting User Agent: {userAgent}</div>
-          <div>|</div>
-          <div>|</div>
-          <div>
-            $ <span class="text">{title}</span>
-          </div>
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+          {/* <div>
+            Detecting location: ({geolocation?.coords.latitude.toFixed(6)},{' '}
+            {geolocation?.coords.longitude.toFixed(6)})
+          </div> */}
+          <div>Detecting timezone: UTC-{NOW.getTimezoneOffset() / 60}</div>
+          <div>Detecting user Agent: {userAgent}</div>
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+          <input
+            id="terminal"
+            name="terminal"
+            class="terminal"
+            onInput={(e) => {
+              console.log(
+                `"${e.target.value}" `,
+                e.target.value.includes('$ ')
+              );
+              if (!e.target.value.includes('$ ')) {
+                console.log('yo');
+                setTerminalValue('$ ');
+              } else {
+                setTerminalValue(e.target.value);
+              }
+            }}
+            type="text"
+            ref={terminalRef}
+            value={terminalValue}
+          />
         </div>
         <div style={{ marginTop: 'auto' }}>
           <div>Press ESC to skip INTRO</div>
@@ -142,7 +166,7 @@ export function Intro() {
         </div>
       </div>
       <div>
-        <svg viewBox="0 0 24 24">
+        {/* <svg viewBox="0 0 24 24">
           <path
             d="
               M 4 4
@@ -155,7 +179,7 @@ export function Intro() {
               A 1 1 0 0 0 12 6"
             fill="green"
           />
-        </svg>
+        </svg> */}
       </div>
     </div>
   );
