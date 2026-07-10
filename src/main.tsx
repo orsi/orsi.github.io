@@ -1,14 +1,14 @@
 import './global.css';
-// import Background from './Background';
-// import Home from './Home';
-// import { Nav } from './Nav';
 import { Intro } from './Intro';
 
 document.querySelector<HTMLDivElement>('body')!.append(
-  <>
+  <div
+    style={{
+      maxWidth: '600px',
+      margin: '0 auto',
+      padding: '24px 16px'
+    }}
+  >
     <Intro />
-    {/* <Background /> */}
-    {/* <Nav /> */}
-    {/* <Home /> */}
-  </>
+  </div>
 );

@@ -1,8 +1,8 @@
 import './Intro.css';
 import { useEffect, useRef, useState } from 'jinx';
 
-// const TITLE = 'LOAD OR51.CA';
 const NOW = new Date();
+// const TITLE = 'LOAD OR51.CA';
 // const AUDIO_CONTEXT = new AudioContext();
 
 export function Intro() {
@@ -11,8 +11,6 @@ export function Intro() {
   // console.log('bluetooth', bluetooth);
   // const connection = navigator.connection;
   // console.log('connection', connection);
-  const deviceMemory = (navigator as any).deviceMemory;
-  // console.log('deviceMemory', deviceMemory);
   // const [geolocation, setGeolocation] = useState<GeolocationPosition>();
   // navigator.geolocation.getCurrentPosition((res) => {
   //   // console.log('geolocation', res);
@@ -30,52 +28,39 @@ export function Intro() {
   // console.log('preferences', preferences);
   // const usb = navigator.usb;
   // console.log('usb', usb);
-  const userAgent = navigator.userAgent;
-  // console.log('userAgent', userAgent);
-
   // const history = window.history;
   // console.log('history', history);
-
   // const battery = navigator.getBattery().then((res) => {
   // console.log('battery', res);
   // });
-
   // const gamepads = navigator.getGamepads();
   // console.log('gamepads', gamepads);
 
-  const terminalRef = useRef<HTMLInputElement>();
-  const [terminalValue, setTerminalValue] = useState('$ ');
+  const userAgent = navigator.userAgent;
+  const [cx, setCx] = useState(16);
+  const [cy, setCy] = useState(8);
+  const [lines, setLines] = useState<string[]>([]);
+  const [prompt, setPrompt] = useState('');
   const [lastInput, setLastInput] = useState('');
-  const [showTooltip, setShowTooltip] = useState(false);
 
+  const lastUpdate = useRef(0);
+  const raf = useRef(0);
   useEffect(() => {
-    if (showTooltip) {
-      setTimeout(() => {
-        setShowTooltip(false);
-      }, 3000);
-    }
-  }, [showTooltip]);
-
-  // const lastUpdate = useRef(0);
-  // const raf = useRef(0);
-  // useEffect(() => {
-  //   const update = (time: number) => {
-  //     const delta = time - lastUpdate.current;
-  //     if (delta > 250) {
-  //       setTitle((value) => {
-  //         return TITLE.substring(0, value.length + 1);
-  //       });
-  //       lastUpdate.current = time;
-  //     }
-  //     raf.current = requestAnimationFrame(update);
-  //   };
-  //   raf.current = requestAnimationFrame(update);
-  //   return () => cancelAnimationFrame(raf.current);
-  // }, []);
+    const update = (time: number) => {
+      const delta = time - lastUpdate.current;
+      if (delta > 1000 / 60) {
+        setCx((value) => (value <= 0 ? 24 : value - 0.005));
+        setCy((value) => (value >= 24 ? 0 : value + 0.005));
+        lastUpdate.current = time;
+      }
+      raf.current = requestAnimationFrame(update);
+    };
+    raf.current = requestAnimationFrame(update);
+    return () => cancelAnimationFrame(raf.current);
+  }, []);
 
   useEffect(() => {
     const onKeyDown = (ev: KeyboardEvent) => {
-      // console.log('keydown', ev);
       const inputs = [];
       if (ev.altKey) {
         inputs.push('ALT');
@@ -89,27 +74,40 @@ export function Intro() {
       if (ev.shiftKey) {
         inputs.push('SHIFT');
       }
+
       if (/^.$/u.test(ev.key)) {
         // `key` matches a single unicode character
         inputs.push(ev.key);
+        setPrompt((value) => value + ev.key);
       }
+
+      if (ev.key === 'Backspace') {
+        inputs.push(ev.key);
+        setPrompt((value) => value.substring(0, value.length - 1));
+      }
+
+      if (ev.key === 'Enter') {
+        inputs.push(ev.key);
+        setPrompt('');
+        setLines((value) => [...value, `Unknown command: ${prompt}`]);
+      }
+
       setLastInput(inputs.join('+'));
     };
     document.addEventListener('keydown', onKeyDown);
     return () => {
-      console.log('yo');
       document.removeEventListener('keydown', onKeyDown);
     };
-  }, []);
+  }, [prompt]);
 
   return (
     <div
       style={{
         display: 'grid',
+        gap: '1rem',
         fontFamily: 'monospace',
         fontSize: '12px',
         gridTemplateColumns: '9fr 3fr',
-        height: '100vh',
       }}
       onClick={() => {
         if ('vibrate' in navigator) {
@@ -126,7 +124,11 @@ export function Intro() {
             Jonathon Orsi v39.{Math.round((10 * (NOW.getMonth() + 1)) / 12)}
           </div>
           <div>Copyright (C) 1986-{NOW.getFullYear()}</div>
-          <div>Memory Test: {deviceMemory}K OK</div>
+          <div>&nbsp;</div>
+          <div>&nbsp;</div>
+          <div>
+            <marquee>Currently under construction!</marquee>
+          </div>
           <div>&nbsp;</div>
           <div>&nbsp;</div>
           {/* <div>
@@ -137,44 +139,47 @@ export function Intro() {
           <div>Detecting user Agent: {userAgent}</div>
           <div>&nbsp;</div>
           <div>&nbsp;</div>
-          <input
-            id="terminal"
-            name="terminal"
-            class="terminal"
-            onInput={(e) => {
-              const target = e.target as HTMLInputElement;
-              if (!target.value.includes('$ ')) {
-                setTerminalValue('$ ');
-              } else {
-                setTerminalValue(target.value);
-              }
+          <ul style={{ listStyle: 'none', margin: '0' }}>
+            {lines.map((line) => (
+              <li
+                style={{
+                  wordBreak: 'break-all',
+                  margin: '0',
+                }}
+              >
+                {line}
+              </li>
+            ))}
+          </ul>
+          <div
+            style={{
+              wordBreak: 'break-all',
             }}
-            type="text"
-            ref={terminalRef}
-            value={terminalValue}
-          />
-        </div>
-        <div style={{ marginTop: 'auto' }}>
-          <div>Press ESC to skip INTRO</div>
-          <div>Last Input: {lastInput}</div>
-          <div>{NOW.toLocaleDateString()}-JX3P,UOFT008-2013-GB16-OCAD2022</div>
+          >
+            <span>$</span>
+            <span style={{ marginLeft: '.3em' }}>{prompt}</span>
+            <span class="cursor">█</span>
+          </div>
         </div>
       </div>
       <div>
-        {/* <svg viewBox="0 0 24 24">
-          <path
-            d="
-              M 4 4
-              A 3 7 0 0 0 12 6"
-            fill="red"
-          />
-          <path
-            d="
-              M 4 4
-              A 1 1 0 0 0 12 6"
-            fill="green"
-          />
-        </svg> */}
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="100%"
+          viewBox="0 0 24 24"
+        >
+          <defs>
+            <mask id="crescent">
+              <rect x="0" y="0" width="100" height="100" fill="white" />
+              <circle fill="black" r="6" cx={cx} cy={cy} />
+            </mask>
+          </defs>
+          <circle fill="white" r="6" cx="12" cy="12" mask="url(#crescent)" />
+        </svg>
+        <div style={{ marginTop: 'auto' }}>
+          <div>Last Input: {lastInput}</div>
+          <div>{NOW.toLocaleDateString()}-JX3P,UOFT008-2013-GB16-OCAD2022</div>
+        </div>
       </div>
     </div>
   );
