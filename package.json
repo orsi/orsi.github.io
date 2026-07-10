@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "jinx": "file:vendor/jinx/packages/jinx"
+    "jinx": "file:vendor/jinx/packages/core"
   },
   "devDependencies": {
     "@types/node": "^24.5.2",

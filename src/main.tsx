@@ -4,15 +4,11 @@ import './global.css';
 // import { Nav } from './Nav';
 import { Intro } from './Intro';
 
-const App = () => {
-  return (
-    <>
-      <Intro />
-      {/* <Background /> */}
-      {/* <Nav /> */}
-      {/* <Home /> */}
-    </>
-  );
-};
-
-document.querySelector<HTMLDivElement>('body')!.append(<App />);
+document.querySelector<HTMLDivElement>('body')!.append(
+  <>
+    <Intro />
+    {/* <Background /> */}
+    {/* <Nav /> */}
+    {/* <Home /> */}
+  </>
+);

@@ -1,47 +1,46 @@
 import './Intro.css';
 import { useEffect, useRef, useState } from 'jinx';
 
-const TITLE = 'LOAD OR51.CA';
-
+// const TITLE = 'LOAD OR51.CA';
 const NOW = new Date();
-const AUDIO_CONTEXT = new AudioContext();
+// const AUDIO_CONTEXT = new AudioContext();
 
 export function Intro() {
   // console.log('audio', AUDIO_CONTEXT);
-  const bluetooth = navigator.bluetooth;
+  // const bluetooth = navigator.bluetooth;
   // console.log('bluetooth', bluetooth);
-  const connection = navigator.connection;
+  // const connection = navigator.connection;
   // console.log('connection', connection);
-  const deviceMemory = navigator.deviceMemory;
+  const deviceMemory = (navigator as any).deviceMemory;
   // console.log('deviceMemory', deviceMemory);
   // const [geolocation, setGeolocation] = useState<GeolocationPosition>();
   // navigator.geolocation.getCurrentPosition((res) => {
   //   // console.log('geolocation', res);
   //   setGeolocation(res);
   // });
-  const hardware = navigator.hardwareConcurrency;
+  // const hardware = navigator.hardwareConcurrency;
   // console.log('hardware', hardware);
-  const language = navigator.language;
+  // const language = navigator.language;
   // console.log('language', language);
-  const languages = navigator.languages;
+  // const languages = navigator.languages;
   // console.log('languages', languages);
-  const online = navigator.onLine;
+  // const online = navigator.onLine;
   // console.log('online', online);
-  const preferences = navigator.preferences;
+  // const preferences = navigator.preferences;
   // console.log('preferences', preferences);
-  const usb = navigator.usb;
+  // const usb = navigator.usb;
   // console.log('usb', usb);
   const userAgent = navigator.userAgent;
   // console.log('userAgent', userAgent);
 
-  const history = window.history;
+  // const history = window.history;
   // console.log('history', history);
 
-  const battery = navigator.getBattery().then((res) => {
-    // console.log('battery', res);
-  });
+  // const battery = navigator.getBattery().then((res) => {
+  // console.log('battery', res);
+  // });
 
-  const gamepads = navigator.getGamepads();
+  // const gamepads = navigator.getGamepads();
   // console.log('gamepads', gamepads);
 
   const terminalRef = useRef<HTMLInputElement>();
@@ -143,15 +142,13 @@ export function Intro() {
             name="terminal"
             class="terminal"
             onInput={(e) => {
-              console.log(
-                `"${e.target.value}" `,
-                e.target.value.includes('$ ')
-              );
-              if (!e.target.value.includes('$ ')) {
+              const target = e.target as HTMLInputElement;
+              console.log(`"${target?.value}" `, target?.value.includes('$ '));
+              if (!target.value.includes('$ ')) {
                 console.log('yo');
                 setTerminalValue('$ ');
               } else {
-                setTerminalValue(e.target.value);
+                setTerminalValue(target.value);
               }
             }}
             type="text"
