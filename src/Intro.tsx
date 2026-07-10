@@ -74,8 +74,6 @@ export function Intro() {
   // }, []);
 
   useEffect(() => {
-    console.log('terminalValue', terminalValue, terminalRef.current?.value);
-
     const onKeyDown = (ev: KeyboardEvent) => {
       // console.log('keydown', ev);
       const inputs = [];
@@ -114,10 +112,12 @@ export function Intro() {
         height: '100vh',
       }}
       onClick={() => {
-        navigator.vibrate([
-          100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100,
-          30, 100,
-        ]); // Vibrate 'SOS' in Morse.
+        if ('vibrate' in navigator) {
+          navigator.vibrate([
+            100, 30, 100, 30, 100, 30, 200, 30, 200, 30, 200, 30, 100, 30, 100,
+            30, 100,
+          ]); // Vibrate 'SOS' in Morse.
+        }
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -143,9 +143,7 @@ export function Intro() {
             class="terminal"
             onInput={(e) => {
               const target = e.target as HTMLInputElement;
-              console.log(`"${target?.value}" `, target?.value.includes('$ '));
               if (!target.value.includes('$ ')) {
-                console.log('yo');
                 setTerminalValue('$ ');
               } else {
                 setTerminalValue(target.value);
