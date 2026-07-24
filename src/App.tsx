@@ -21,8 +21,8 @@ export default function App() {
       <main
         class="p-2"
         style={{
-          margin: "var(--spacing-2) 0",
           border: "1px dashed var(--color-grey)",
+          margin: "var(--spacing-2) 0",
         }}
       >
         <Terminal />

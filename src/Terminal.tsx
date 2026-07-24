@@ -40,21 +40,37 @@ export function Terminal() {
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
       <div
         style={{
+          display: "flex",
+          position: "relative",
           wordBreak: "break-all",
         }}
       >
         <span>$</span>
         <span style={{ marginLeft: ".3em" }}>{prompt}</span>
         <span class="cursor">█</span>
+        <input
+          type="text"
+          name="terminal"
+          style={{
+            background: "transparent",
+            border: "none",
+            color: "transparent",
+            outline: "none",
+            padding: "0",
+            position: "absolute",
+            width: "100%",
+            zIndex: '2',
+          }}
+        />
       </div>
       <ul style={{ listStyle: "none", margin: "0", padding: "0" }}>
         {lines.map((line) => (
           <li
             class="color-grey"
             style={{
-              wordBreak: "break-all",
               margin: "0",
               minHeight: "1rem",
+              wordBreak: "break-all",
             }}
           >
             {line}
