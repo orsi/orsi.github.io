@@ -55,6 +55,7 @@ export function Terminal() {
             background: "transparent",
             border: "none",
             color: "transparent",
+            fontSize: '1rem',
             outline: "none",
             padding: "0",
             position: "absolute",
