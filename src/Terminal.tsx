@@ -51,9 +51,11 @@ export function Terminal() {
         <input
           type="text"
           name="terminal"
+          value=""
           style={{
             background: "transparent",
             border: "none",
+            caretColor: 'transparent',
             color: "transparent",
             fontSize: '1rem',
             outline: "none",
