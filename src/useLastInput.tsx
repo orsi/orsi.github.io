@@ -1,4 +1,3 @@
-import "./Intro.css";
 import { useEffect, useState } from "jinx";
 
 export function useLastInput() {

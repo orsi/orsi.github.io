@@ -1,8 +1,10 @@
-import "./Intro.css";
+import "./Terminal.css";
 import { useEffect, useState } from "jinx";
 
+const DEFAULT_LINES = [`Welcome!`, ``, `Available commands: "about", "clear"`];
+
 export function Terminal() {
-  const [lines, setLines] = useState<string[]>([]);
+  const [lines, setLines] = useState<string[]>(DEFAULT_LINES);
   const [prompt, setPrompt] = useState("");
 
   useEffect(() => {
@@ -15,17 +17,25 @@ export function Terminal() {
       } else if (ev.key === "Enter" && prompt.trim().length > 0) {
         setPrompt("");
         setLines((value) => {
-          const newValue = [...value];
+          let newValue = [...value];
 
-          if (newValue.length === 0) {
+          if (prompt.toLowerCase() === "about") {
             newValue.push(
               "",
-              `Site is currently under construction -- nothing to see here yet!`,
-              "",
+              `Hi! I'm a full-stack engineer with 10+ years building web apps at startups and enterprises. I have a deep expertise in frontend component-based architecture and cloud-native microservices, with a proven history of technical leadership and impact at scale.`,
             );
+          } else if (prompt.toLowerCase() === "clear") {
+            newValue = DEFAULT_LINES;
+          } else {
+            newValue.push(`Unknown command: ${prompt}`);
           }
 
-          newValue.push(`Unknown command: ${prompt}`);
+          setTimeout(() => {
+            window.scrollTo({
+              top: window.innerHeight,
+              behavior: "smooth",
+            });
+          }, 500);
           return newValue;
         });
       }
@@ -38,34 +48,6 @@ export function Terminal() {
 
   return (
     <div style={{ display: "flex", flexDirection: "column", height: "100%" }}>
-      <div
-        style={{
-          display: "flex",
-          position: "relative",
-          wordBreak: "break-all",
-        }}
-      >
-        <span>$</span>
-        <span style={{ marginLeft: ".3em" }}>{prompt}</span>
-        <span class="cursor">█</span>
-        <input
-          type="text"
-          name="terminal"
-          value=""
-          style={{
-            background: "transparent",
-            border: "none",
-            caretColor: 'transparent',
-            color: "transparent",
-            fontSize: '1rem',
-            outline: "none",
-            padding: "0",
-            position: "absolute",
-            width: "100%",
-            zIndex: '2',
-          }}
-        />
-      </div>
       <ul style={{ listStyle: "none", margin: "0", padding: "0" }}>
         {lines.map((line) => (
           <li
@@ -76,10 +58,44 @@ export function Terminal() {
               wordBreak: "break-all",
             }}
           >
-            {line}
+            <pre style={{ whiteSpace: "break-spaces" }}>{line}</pre>
           </li>
         ))}
       </ul>
+      <div
+        style={{
+          display: "inline-flex",
+          position: "relative",
+          wordBreak: "break-all",
+        }}
+      >
+        <span>$</span>
+        <pre style={{ marginLeft: ".3em", whiteSpace: "break-spaces" }}>
+          {prompt}
+          <span class="cursor">█</span>
+        </pre>
+        <input
+          type="text"
+          name="terminal"
+          value=""
+          style={{
+            background: "transparent",
+            border: "none",
+            caretColor: "transparent",
+            color: "transparent",
+            fontSize: "1rem",
+            outline: "none",
+            padding: "0",
+            position: "absolute",
+            top: "0",
+            left: "0",
+            right: "0",
+            bottom: "0",
+            width: "100%",
+            zIndex: "2",
+          }}
+        />
+      </div>
     </div>
   );
 }
