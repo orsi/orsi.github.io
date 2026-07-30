@@ -1,10 +1,8 @@
 import "./Terminal.css";
 import { useEffect, useState } from "jinx";
 
-const DEFAULT_LINES = [`Welcome!`, ``, `Available commands: "about", "clear"`];
-
 export function Terminal() {
-  const [lines, setLines] = useState<string[]>(DEFAULT_LINES);
+  const [lines, setLines] = useState<string[]>([]);
   const [prompt, setPrompt] = useState("");
 
   useEffect(() => {
@@ -21,7 +19,6 @@ export function Terminal() {
 
           if (prompt.toLowerCase() === "about") {
             newValue.push(
-              "",
               `Hi, my name is Jonathon Orsi! Thanks for visiting my very experimental website. Not only is it my portfolio site, but it is a test subject for learning new tech and a lot of my own side projects. For instance, instead of using React, I created "jinx" to learn what React is, what it does, and how it would be implemented.`,
               "",
               `As a professional software developer, I've spent most of my career working on problems that sit somewhere between product engineering and platform engineering. I like building features, but I tend to gravitate toward the work that makes everyone else's job easier: design systems, shared infrastructure, developer tooling, architecture, and modernizing codebases that have grown difficult to work in.`,
@@ -32,17 +29,17 @@ export function Terminal() {
               "",
             );
           } else if (prompt.toLowerCase() === "clear") {
-            newValue = DEFAULT_LINES;
+            newValue = [];
           } else {
             newValue.push(`Unknown command: ${prompt}`);
           }
 
           setTimeout(() => {
             window.scrollTo({
-              top: window.innerHeight,
+              top: document.body.clientHeight,
               behavior: "smooth",
             });
-          }, 500);
+          }, 0);
           return newValue;
         });
       }
@@ -61,7 +58,6 @@ export function Terminal() {
             style={{
               margin: "0",
               minHeight: "1rem",
-              wordBreak: "break-all",
             }}
           >
             <pre style={{ whiteSpace: "break-spaces" }}>{line}</pre>
