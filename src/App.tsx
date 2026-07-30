@@ -11,7 +11,7 @@ import { Terminal } from "./Terminal";
 
 export default function App() {
   return (
-    <div class="container-lg py-4 px-2">
+    <div class="container-md py-4 px-2">
       <header>
         <Navigation />
       </header>
@@ -21,6 +21,7 @@ export default function App() {
         </nav> */}
       </div>
       <main>
+        <p class="color-grey mt-2">Currently available commands: "about", "clear"</p>
         <div
           class="p-2"
           style={{
