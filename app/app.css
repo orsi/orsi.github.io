@@ -5,14 +5,8 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
-html,
-body {
-  @apply bg-slate-900 text-gray-200 px-8 py-4;
-}
-
 a {
-  @apply text-emerald-300;
-  text-decoration: underline;
+  @apply text-gray-100/90 font-bold underline;
 }
 
 h2 {

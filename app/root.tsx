@@ -1,14 +1,16 @@
 import {
   isRouteErrorResponse,
+  Link,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "react-router";
-
 import type { Route } from "./+types/root";
 import "./app.css";
+import routes from "./routes";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -24,6 +26,7 @@ export const links: Route.LinksFunction = () => [
 ];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+  let location = useLocation();
   return (
     <html lang="en">
       <head>
@@ -36,8 +39,30 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
-        {children}
+      <body className="bg-mauve-900 text-gray-300/90 ">
+        <div className="fixed w-screen h-screen z-0 bg-[#989898] bg-[url('/bg-480.jpg')] md:bg-[url('/bg-720.jpg')] lg:bg-[url('/bg-1080.jpg')] bg-cover bg-no-repeat bg-top-right bg-blend-color-burn" />
+        <div className="relative max-w-3xl m-auto px-8 py-4 z-1">
+          <h1 className="text-4xl tracking-wider font-serif">jonathon orsi</h1>
+          <nav className="flex gap-2">
+            {routes.map((route) => {
+              const active =
+                (!route.path && location.pathname === "/") ||
+                location.pathname === route.path;
+              console.log(active);
+              return (
+                <Link
+                  className={active ? "" : "no-underline!"}
+                  key={route.id}
+                  to={route.path ? route.path : "/"}
+                >
+                  {route.index ? "home" : "résumé"}
+                </Link>
+              );
+            })}
+          </nav>
+          <hr className="border-slate-800 mt-2" />
+          {children}
+        </div>
         <ScrollRestoration />
         <Scripts />
       </body>
