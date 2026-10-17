@@ -1,14 +1,29 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-sans:
+    "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --color-maroon: #800000;
+  --color-maroon-50: #faf5f5;
+  --color-maroon-100: #f7e8e8;
+  --color-maroon-200: #f4c2c2;
+  --color-maroon-300: #f69292;
+  --color-maroon-400: #fb5656;
+  --color-maroon-500: #ff1a1a;
+  --color-maroon-600: #e60000;
+  --color-maroon-700: #b80505;
+  --color-maroon-800: #830707;
+  --color-maroon-900: #5e0808;
+  --color-maroon-950: #370606;
 }
 
-a {
-  @apply text-gray-100/90 font-bold underline;
-}
+@layer base {
+  a {
+    @apply text-maroon-400/90 font-bold italic;
+  }
 
-h2 {
-  @apply mt-8 tracking-widest text-xl font-light uppercase;
+  h2 {
+    @apply mt-8 tracking-widest text-xl font-light uppercase;
+  }
 }

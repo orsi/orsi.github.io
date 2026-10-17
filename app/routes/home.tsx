@@ -9,8 +9,6 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   return (
-    <main className="mt-4">
-      <p><em>under construction...</em></p>
-    </main>
+    <main className="mt-4">{/* <p><em>under construction...</em></p> */}</main>
   );
 }
