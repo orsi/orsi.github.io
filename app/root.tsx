@@ -60,18 +60,27 @@ export const links: Route.LinksFunction = () => [
 type ROUTE_ITEM = { path: string; label: string; children?: ROUTE_ITEM[] };
 const ROUTE_TREE = [
   {
-    path: "/dev",
     label: "dev",
+    path: "/dev",
     children: [
-      { path: "/resume", label: "résumé" },
-      { path: "/projects", label: "projects" },
-      { path: "/web", label: "web" },
+      {
+        label: "résumé",
+        path: "/resume",
+      },
+      {
+        label: "projects",
+        path: "/projects",
+      },
+      {
+        label: "web",
+        path: "/web",
+      },
     ],
   },
-  // {
-  //   path: "/music",
-  //   children: [{ path: "/bands" }, { path: "/games" }, { path: "/mix" }],
-  // },
+  {
+    label: "music",
+    path: "/music",
+  },
 ] as ROUTE_ITEM[];
 
 export function Layout({ children }: { children: React.ReactNode }) {
