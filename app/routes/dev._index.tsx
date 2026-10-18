@@ -9,43 +9,69 @@ export function meta({}: Route.MetaArgs) {
   ];
 }
 
+const RESUME_KEYWORDS = [
+  "design systems",
+  "product engineering",
+  "frontend standards",
+  "test driven development (TDD)",
+  "ci/cd pipelines",
+  "react",
+  "javascript/typescript",
+  "state management",
+  "react testing library",
+  "jest",
+  "cypress",
+  "playwright",
+  "ai-assisted workflows",
+  "accessibility (a11y)",
+  "internationalization (i18n)",
+];
 export default function Page() {
   return (
     <main className="mt-4">
-      <p className="mt-6">
-        I've spent most of my career working on problems that sit somewhere
-        between products, user experience, and platform engineering. I like
-        building features, and I tend to gravitate toward the work that makes
-        everyone else's job easier: design systems, shared infrastructure,
-        developer tooling, architecture, and modernizing codebases.
+      <p className="mt-6 text-2xl italic font-mono">
+        Hi, my name is Jonathon Orsi.
       </p>
       <p className="mt-6">
-        I've built design system, shipped features, and spent a lot of time
-        defining frontend standards, improving CI/CD, introducing AI-assisted
-        development workflows, and making accessibility (a11y) and
-        internationalization (i18n) part of the normal development process.
+        I've been coding since 1996 when I wrote HTML using notepad for my first
+        Geocities website. Most of my development career has been working on
+        problems that sit somewhere between user and developer experience. I
+        have built complex and highly interactive interfaces, theme-based design
+        systems with compositional components, established code quality and
+        standards via continuous integrations and continuous delivery (CI/CD)
+        pipelines, and migrated legacy codebases into modern tech stacks.
       </p>
       <p className="mt-6">
-        I've moved between enterprise software, design agency startups, and
-        product focused companies, which taught me to get comfortable learning
-        new domains quickly without getting attached to particular technologies.
+        I've built enterprise software in large corporate offices and cloud
+        microservice architectures and SEO optimized marketing campaigns at
+        design agency startups. I am comfortable learning new domains and
+        adapting quickly to contribute in both dynamic team settings and as an
+        independent contribution.
       </p>
       <p className="mt-6">
-        I've excelled in frontend engineering because I typically think of
-        software from the user's experience, though the users could be: a client
-        on a marketing campaign website; a developer trying to build a new
-        feature with the design system; or a data analyst wanting to generate
-        reports from an SQL server. I like understanding whole system, and find
-        myself enjoying the jump between React monrepos, backend services,
-        databases, infrastructure, and deployment pipelines, depending on what
-        needed attention.
+        Software is fun. I have an eclectic mix of side projects that include a
+        my own programming language compiler, a CHIP-8 emulator, a JSX library,
+        and a handful of graphics and audio experiments. Check out my GitHub
+        profile{" "}
+        <a href="https://github.com/orsi" rel="noreferrer noopener">
+          here
+        </a>
+        .
       </p>
-      <p className="mt-6">
-        I write software because it's fun. Some of my side projects include a
-        compiler, a CHIP-8 emulator, a JSX library, and a handful of graphics
-        and audio experiments. I also write audio engines and compose music for
-        indie games.
-      </p>
+
+      {/* <p className="mt-6">Keywords that you would see on my resume:</p>
+      <ul className="flex flex-wrap gap-2 mt-2">
+        {RESUME_KEYWORDS.map((keyword) => {
+          return (
+            <li
+              className="bg-maroon-700/80 shadow shadow-maroon-800/70 rounded-md px-2 py-1 text-gray-100/90 text-xs text-nowrap"
+              key={keyword}
+            >
+              {keyword}
+            </li>
+          );
+        })}
+      </ul> */}
       <Outlet />
     </main>
   );

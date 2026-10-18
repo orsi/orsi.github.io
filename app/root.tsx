@@ -63,7 +63,7 @@ const ROUTE_TREE = [
     path: "/dev",
     label: "dev",
     children: [
-      { path: "/resume", label: "resume" },
+      { path: "/resume", label: "résumé" },
       { path: "/projects", label: "projects" },
       { path: "/web", label: "web" },
     ],
@@ -76,14 +76,17 @@ const ROUTE_TREE = [
 
 export function Layout({ children }: { children: React.ReactNode }) {
   let location = useLocation();
-  const parts = location.pathname === "/" ? null : location.pathname.split("/");
+  const parts =
+    location.pathname === "/"
+      ? null
+      : location.pathname.split("/").filter((part) => part);
 
   function renderRouteNode(route: ROUTE_ITEM, prefix?: string) {
     const fullPath = `${prefix ? prefix : ""}${route.path}`;
     const isActive = location.pathname === fullPath;
 
     return (
-      <li>
+      <li key={route.path}>
         <span>└─ </span>
         <Link className={isActive ? "underline" : ""} to={fullPath}>
           {route.label}
@@ -120,19 +123,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body className="bg-mauve-900 text-gray-300/90 ">
         <div className="fixed w-screen h-screen z-0 bg-[#989898] bg-[url('/bg-480.jpg')] md:bg-[url('/bg-720.jpg')] lg:bg-[url('/bg-1080.jpg')] bg-cover bg-no-repeat bg-top-right bg-blend-color-burn" />
         <div className="relative max-w-3xl m-auto px-8 py-4 z-1">
-          <h1 className="text-4xl tracking-wider font-mono font-thin">
-            <Link to="/">orsi</Link>
-          </h1>
-          <nav>{ROUTE_TREE.length && renderRouteTree(ROUTE_TREE)}</nav>
-          <div className="mt-2 font-mono">
-            {parts &&
-              parts.map((part) => (
-                <Link className="text-gray-50/50" to={part}>
-                  <span>/</span>
-                  <span>{part ? `${part}` : `orsi`}</span>
-                </Link>
-              ))}
+          <div className="text-4xl leading-none font-mono font-thin">
+            <div className="flex items-end">
+              <h1>
+                <Link to="/">orsi</Link>
+              </h1>
+              {parts && (
+                <div className="ml-2 text-sm">
+                  {parts.map((part) => (
+                    <span key={part} className="opacity-25 ">
+                      /{part}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
+
+          <nav>{ROUTE_TREE.length && renderRouteTree(ROUTE_TREE)}</nav>
           {children}
         </div>
         <ScrollRestoration />
