@@ -97,7 +97,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
     return (
       <li key={route.path}>
         <span>└─ </span>
-        <Link className={isActive ? "underline" : ""} to={`${fullPath}/`}>
+        <Link className={isActive ? "underline" : ""} to={`${fullPath}`}>
           {route.label}
         </Link>
         {route.children?.length && (
