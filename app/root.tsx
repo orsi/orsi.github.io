@@ -7,9 +7,11 @@ import {
   Scripts,
   ScrollRestoration,
   useLocation,
+  useNavigate,
 } from "react-router";
 import type { Route } from "./+types/root";
 import "./app.css";
+import { TerminalHeader } from "./components/TerminalHeader";
 
 export default function App() {
   return <Outlet />;
@@ -32,11 +34,11 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="pt-16 p-4 container mx-auto">
+    <main className="container mx-auto p-4 pt-16">
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (
-        <pre className="w-full p-4 overflow-x-auto">
+        <pre className="w-full overflow-x-auto p-4">
           <code>{stack}</code>
         </pre>
       )}
@@ -83,8 +85,23 @@ const ROUTE_TREE = [
   },
 ] as ROUTE_ITEM[];
 
+const paths = ROUTE_TREE.reduce(
+  (acc, item) => {
+    acc.push(item.path);
+    if (item.children) {
+      for (const subPath of item.children) {
+        acc.push(`${item.path}${subPath.path}`);
+      }
+    }
+    return acc;
+  },
+  ["/"] as string[],
+);
+
 export function Layout({ children }: { children: React.ReactNode }) {
   let location = useLocation();
+  let navigate = useNavigate();
+
   const parts =
     location.pathname === "/"
       ? null
@@ -111,9 +128,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
   function renderRouteTree(tree: ROUTE_ITEM[]) {
     return (
-      <ul className="font-mono">
-        {tree.map((route) => renderRouteNode(route))}
-      </ul>
+      <>
+        <h1 className="text-4xl">
+          <Link className="" to="/">
+            orsi
+          </Link>
+        </h1>
+        <ul className="font-mono">
+          {tree.map((route) => renderRouteNode(route))}
+        </ul>
+      </>
     );
   }
 
@@ -129,29 +153,45 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body className="bg-mauve-900 text-gray-300/90 ">
-        <div className="fixed w-screen h-screen z-0 bg-[#989898] bg-[url('/bg-480.jpg')] md:bg-[url('/bg-720.jpg')] lg:bg-[url('/bg-1080.jpg')] bg-cover bg-no-repeat bg-top-right bg-blend-color-burn" />
-        <div className="relative max-w-3xl m-auto px-8 py-4 z-1">
-          <div className="text-4xl leading-none font-mono font-thin">
-            <div className="flex items-end">
-              <h1>
-                <Link to="/">orsi</Link>
-              </h1>
-              {parts && (
-                <div className="ml-2 text-sm">
-                  {parts.map((part) => (
-                    <span key={part} className="opacity-25 ">
-                      /{part}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
+      <body>
+        {/* <div className="fixed z-0 h-screen w-screen bg-[#989898] bg-[url('/bg-480.jpg')] bg-cover bg-top-right bg-no-repeat bg-blend-color-burn md:bg-[url('/bg-720.jpg')] lg:bg-[url('/bg-1080.jpg')]" /> */}
+        <div className="m-auto max-w-3xl px-8 py-4">
+          <TerminalHeader
+            commands={{
+              cd: (args) => {
+                const path = args[0];
+                if (path === ".." && parts && parts.length > 0) {
+                  const goto = parts.slice(0, parts.length - 1);
+                  navigate(goto.join("/"));
+                } else if (path === ".." && (!parts || parts.length === 0)) {
+                } else if (paths.includes(path)) {
+                  navigate(args[0]);
+                } else {
+                  return [
+                    `No path "${args[0]}". Available paths:`,
+                    ` `,
+                    <ul className="font-mono">
+                      {paths.map((path) => (
+                        <li key={path}>└{path}</li>
+                      ))}
+                    </ul>,
+                  ];
+                }
+              },
+              clear: (_, terminal) => {
+                terminal.clear();
+              },
+              ls: () => {
+                return renderRouteTree(ROUTE_TREE);
+              },
+            }}
+            init="ls"
+            prompt={`or51.ca${parts ? `/${parts?.join("/")}` : ""} $ `}
+          />
 
-          <nav>{ROUTE_TREE.length && renderRouteTree(ROUTE_TREE)}</nav>
           {children}
         </div>
+
         <ScrollRestoration />
         <Scripts />
       </body>

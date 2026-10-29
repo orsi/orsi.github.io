@@ -16,14 +16,25 @@
   --color-maroon-800: #830707;
   --color-maroon-900: #5e0808;
   --color-maroon-950: #370606;
+
+  --animate-blink: blink 750ms infinite steps(1, start);
+  @keyframes blink {
+    50% {
+      background: transparent;
+    }
+  }
 }
 
 @layer base {
+  body {
+    @apply bg-black/90 text-gray-50/90;
+  }
+
   a {
     @apply text-maroon-400/90 font-bold italic;
   }
 
   h2 {
-    @apply mt-8 tracking-widest text-xl font-light uppercase;
+    @apply mt-8 text-xl font-light tracking-widest uppercase;
   }
 }
