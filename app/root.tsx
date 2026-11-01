@@ -11,7 +11,8 @@ import {
 } from "react-router";
 import type { Route } from "./+types/root";
 import "./app.css";
-import { TerminalHeader } from "./components/TerminalHeader";
+import { Terminal } from "./components/Terminal";
+import { useState, type ReactNode } from "react";
 
 export default function App() {
   return <Outlet />;
@@ -102,6 +103,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
   let location = useLocation();
   let navigate = useNavigate();
 
+  const [output, setOutput] = useState<ReactNode>();
+
   const parts =
     location.pathname === "/"
       ? null
@@ -156,7 +159,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         {/* <div className="fixed z-0 h-screen w-screen bg-[#989898] bg-[url('/bg-480.jpg')] bg-cover bg-top-right bg-no-repeat bg-blend-color-burn md:bg-[url('/bg-720.jpg')] lg:bg-[url('/bg-1080.jpg')]" /> */}
         <div className="m-auto max-w-3xl px-8 py-4">
-          <TerminalHeader
+          <Terminal
             commands={{
               cd: (args) => {
                 const path = args[0];
@@ -178,8 +181,8 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   ];
                 }
               },
-              clear: (_, terminal) => {
-                terminal.clear();
+              clear: () => {
+                setOutput(undefined);
               },
               ls: () => {
                 return renderRouteTree(ROUTE_TREE);
@@ -187,8 +190,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
             }}
             init="ls"
             prompt={`or51.ca${parts ? `/${parts?.join("/")}` : ""} $ `}
+            onOutput={(output) => setOutput(output)}
           />
-
+          {output}
+          --
           {children}
         </div>
 
