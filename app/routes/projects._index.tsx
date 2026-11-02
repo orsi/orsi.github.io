@@ -1,19 +1,18 @@
-import { Link } from "react-router";
-import type { Route } from "./+types/dev.web";
+import type { Route } from "./+types/projects._index";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "orsi - /dev/web" },
-    { name: "description", content: "Jonathon Orsi /dev/web." },
+    { title: "orsi - /projects" },
+    { name: "description", content: "Jonathon Orsi's projects'." },
   ];
 }
 
 export default function Page() {
   return (
     <main>
-      <p className="mt-8 text-2xl italic font-mono">
-        A few of my web projects you can visit today.
-      </p>
+      <h2 className="font-mono italic">
+        Some of my web projects you can visit today.
+      </h2>
       <ul>
         <li className="mt-8">
           <a

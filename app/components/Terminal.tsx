@@ -9,18 +9,16 @@ import {
   type SyntheticEvent,
 } from "react";
 
-type CommandFunction = (args: string[]) => ReactNode | undefined;
+type CommandFunction = (value: string) => void;
 
 export function Terminal({
-  commands,
+  onCommand,
   init,
   prompt = "$",
-  onOutput,
 }: {
-  commands?: Record<string, CommandFunction>;
+  onCommand?: CommandFunction;
   init?: string;
   prompt?: string;
-  onOutput?: (output: ReactNode) => void;
 }) {
   const [input, setInput] = useState<string>("");
   const [selectionStart, setSelectionStart] = useState(0);
@@ -33,33 +31,15 @@ export function Terminal({
   const translateX = useRef(0);
 
   useEffect(() => {
-    if (init == null || inputRef.current == null) {
+    if (init == null) {
       return;
     }
 
-    inputRef.current.value = inputRef.current.value + init;
-    execute(inputRef.current);
+    execute(init);
   }, [init]);
 
-  function execute(inputEl: HTMLInputElement) {
-    const value = inputEl.value;
-
-    const [command, ...args] = value.split(" ");
-    const commandFn = commands?.[command];
-
-    if (!commandFn) {
-      const commandList = Object.keys(commands ?? {});
-      onOutput?.(
-        `Command not found. Current commands: ${commandList.join(", ")}`,
-      );
-    } else {
-      const result = commandFn(args);
-      if (result) {
-        onOutput?.(result);
-      }
-    }
-
-    inputEl.value = "";
+  function execute(value: string) {
+    onCommand?.(value);
     setInput("");
     setSelectionStart(0);
     setSelectionEnd(0);
@@ -72,7 +52,7 @@ export function Terminal({
   function onKeyDown(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter") {
       e.preventDefault();
-      execute(e.currentTarget);
+      execute(input);
     }
   }
 
@@ -129,7 +109,7 @@ export function Terminal({
 
   return (
     <label
-      className="outline-maroon-400/80 flex cursor-text gap-1 rounded-full bg-black/80 px-4 py-2 font-mono outline-2 focus-within:outline-solid"
+      className="outline-maroon-500 flex cursor-text gap-1 font-mono"
       htmlFor="terminal-input"
     >
       <span className="hidden flex-none sm:block">{prompt}</span>
@@ -142,7 +122,7 @@ export function Terminal({
           {input}
         </span>
         <input
-          className="relative z-1 w-full flex-1 caret-transparent outline-none selection:bg-transparent"
+          className="relative z-1 w-full flex-1 caret-transparent outline-none selection:bg-transparent focus:bg-white/10"
           id="terminal-input"
           name="terminal-input"
           onBlur={onBlur}
