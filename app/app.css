@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "Source Sans 3";
-  src: url("fonts/SourceSans3-Regular.ttf") format("truetype");
+  src: url("/fonts/SourceSans3-Regular.ttf") format("truetype");
   font-optical-sizing: auto;
   font-weight: 100 900;
   font-style: normal;
@@ -11,7 +11,7 @@
 
 @font-face {
   font-family: "Source Sans 3";
-  src: url("fonts/SourceSans3-Italic.ttf") format("truetype");
+  src: url("/fonts/SourceSans3-Italic.ttf") format("truetype");
   font-optical-sizing: auto;
   font-weight: 100 900;
   font-style: italic;
@@ -20,7 +20,7 @@
 
 @font-face {
   font-family: "Press Start 2P";
-  src: url("fonts/PressStart2P-Regular.ttf") format("truetype");
+  src: url("/fonts/PressStart2P-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
